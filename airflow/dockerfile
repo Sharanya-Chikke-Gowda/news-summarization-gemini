@@ -1,0 +1,18 @@
+FROM apache/airflow:2.9.1
+USER root
+
+RUN apt-get update && apt-get install -y python3-pip
+
+EXPOSE 8080
+EXPOSE 8501
+
+RUN mkdir -p dags
+COPY ./dags ./dags
+
+USER airflow
+
+COPY requirements.txt ./
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["standalone"]
